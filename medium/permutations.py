@@ -14,13 +14,16 @@ class Solution:
                 sol.append(nums[i])
                 used[i] = True
                 if len(sol) == len(nums):
-                    print(sol)
-                    sols.append(sol)
+                    sols.append(list(sol))
                 self.bkt(sol, used, nums, sols)
                 used[i] = False
                 sol.pop()
 
     def permute(self, nums: List[int]) -> List[List[int]]:
+        if not nums:
+            return []
+        if len(nums) == 1:
+            return [[nums[0]]]
         used = [False] * len(nums)
         sols = []
         self.bkt([], used, nums, sols)
