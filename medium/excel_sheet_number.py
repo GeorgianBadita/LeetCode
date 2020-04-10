@@ -7,13 +7,17 @@
 
 class Solution:
     def titleToNumber(self, s: str) -> int:
-        # TODO (WRONG)
+        def get_with_n_letters(n):
+            return 26 ** n
+
         if len(s) == 1:
             return ord(s[0]) - ord('A') + 1
-        cell = 0
-        for i in range(len(s) - 1):
-            cell += 26 * (ord(s[i]) - ord('A') + 1)
-        return cell + ord(s[-1]) - ord('A') + 1
+        cell = 1
+        for i in range(1, len(s)):
+            cell += get_with_n_letters(i)
+        for i in range(len(s) - 1, -1, -1):
+            cell += (ord(s[i]) - ord('A')) * get_with_n_letters(len(s) - 1 - i)
+        return cell
 
 
-print(Solution().titleToNumber("ZYY"))
+print(Solution().titleToNumber("ZY"))

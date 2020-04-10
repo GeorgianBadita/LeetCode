@@ -7,66 +7,40 @@
 
 class Solution:
 
-    def gcd(self, a, b):
-        if b == 0:
-            return a
-        return self.gcd(b, a % b)
-
-    # TODO this
     def fractionToDecimal(self, numerator: int, denominator: int) -> str:
         if numerator == 0:
             return "0"
-        if numerator // denominator == numerator / denominator:
+        if numerator % denominator == 0:
             return str(numerator // denominator)
-        gcd = self.gcd(numerator, denominator)
-        numerator //= gcd
-        denominator //= gcd
-        until_period = []
-        after_period = []
-        numerator_dict = dict()
-        while numerator * 10 < denominator * 10:
-            numerator *= 10
-            until_period.append('0')
-        is_cycle = False
-        dig_pos = 0
-        period_info = None
-        float_ = None
-        while numerator != 0:
-            if numerator in numerator_dict:
-                is_cycle = True
-                period_info = numerator_dict[numerator]
-                break
-            numerator_dict[numerator] = dig_pos
-            res = numerator // denominator
-            dig_pos += 1
-            after_period.append(str(res))
-            numerator -= res * denominator
-            if float_ is None and numerator < denominator:
-                float_ = dig_pos
-            numerator *= 10
+        sign = '-' if (numerator < 0) ^ (denominator < 0) else None
+        if numerator < 0:
+            numerator *= -1
+        if denominator < 0:
+            denominator *= -1
 
-        cnt = 0
-        while abs(-cnt - 1) < len(after_period) and after_period[-cnt - 1] == '0':
-            cnt += 1
-        cnt1 = 0
-        while abs(-cnt1 - 1) < len(until_period) and until_period[-cnt1 - 1] == '0':
-            cnt1 += 1
-        cnt = min(cnt1, cnt)
-        if cnt > 0:
-            result = until_period + after_period[:-cnt]
-        else:
-            result = until_period + after_period
-        result.insert(1, '.')
-        if is_cycle:
-            print(float_)
-            if period_info == 0:
-                float_ = 0
-                k = 0
-            else:
-                k = len(until_period)
-            result.insert(2 + period_info - float_ + k, '(')
+        result = []
+        repeat_dict = {}
+        poz = 0
+        while True:
+            if numerator in repeat_dict:
+                break
+            repeat_dict[numerator] = poz
+            if numerator == 0:
+                break
+            res = numerator // denominator
+            result.append(str(res))
+            poz += 1
+            if len(result) == 1:
+                result.append('.')
+            numerator -= res * denominator
+            numerator *= 10
+        if numerator != 0:
+            poz = repeat_dict[numerator]
+            result.insert(1 + poz, '(')
             result.append(')')
+        if sign is not None:
+            result.insert(0, '-')
         return ''.join(result)
 
 
-print(Solution().fractionToDecimal(1, 90))
+print(Solution().fractionToDecimal(-50, -8))
