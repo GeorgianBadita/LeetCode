@@ -1,0 +1,15 @@
+# https://leetcode.com/explore/interview/card/top-interview-questions-medium/108/trees-and-graphs/786/
+
+from typing import List
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+class Solution:
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        if not root:
+            return []
+        
+        return self.inorderTraversal(root.left) + [root.val] + self.inorderTraversal(root.right)
