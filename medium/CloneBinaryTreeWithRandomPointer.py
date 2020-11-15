@@ -31,8 +31,8 @@ class Solution:
         self.__nodes[node] = copy
 
         copy.left = self.solve(node.left)
-        copy.right = self.solve(copy.right)
-        copy.random = self.solve(copy.random)
+        copy.right = self.solve(node.right)
+        copy.random = self.solve(node.random)
 
         return copy
 
