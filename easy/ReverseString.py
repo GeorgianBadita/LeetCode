@@ -4,10 +4,20 @@ from typing import List
 
 
 class Solution:
+
+    def helper(self, lst, left, right):
+        if left >= right:
+            return
+        lst[left], lst[right] = lst[right], lst[left]
+        left += 1
+        right -= 1
+        self.helper(lst, left, right)
+
     def reverseString(self, s: List[str]) -> None:
         """
         Do not return anything, modify s in-place instead.
         """
+        self.helper(s, 0, len(s) - 1)
+        return s
 
-        for i in range(len(s) // 2):
-            s[i], s[len(s) - i - 1] = s[len(s) - i - 1], s[i]
+print(Solution().reverseString(['a', 'b', 'c']))

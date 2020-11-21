@@ -15,24 +15,37 @@ class TreeNode:
 class Solution:
 
     def build_from_preorder(self, preorder, start, end):
+
+        if end  == start + 1:
+            curr_val = preorder[start]
+            next_val = preorder[start + 1]
+            root = TreeNode(curr_val)
+            if curr_val > next_val:
+                root.left = TreeNode(next_val)
+            else:
+                root.right = TreeNode(next_val)
+            return root
+
         if start > end:
-            return TreeNode()
+            return None
 
-        if start == end or end == start + 1:
+        if start == end:
             return TreeNode(preorder[start])
-
-        root = TreeNode(preorder[start])
+        
         split_index = start
-        for i in range(start, end):
+        for i in range(start, end + 1):
             if preorder[i] > preorder[start]:
                 split_index = i
                 break
-        root.left = self.build_from_preorder(preorder, start + 1, split_index)
-        root.right = self.build_from_preorder(preorder, split_index + 1, end)
+        if split_index == start:
+            split_index = end + 1
+        root = TreeNode(preorder[start])
+        root.left = self.build_from_preorder(preorder, start + 1, split_index - 1)
+        root.right = self.build_from_preorder(preorder, split_index, end)
         return root
 
     def bstFromPreorder(self, preorder: List[int]) -> TreeNode:
-        return self.build_from_preorder(preorder, 0, len(preorder))
+        return self.build_from_preorder(preorder, 0, len(preorder) - 1)
 
 
-print(Solution().bstFromPreorder([8, 5, 1, 7, 10, 12]))
+
