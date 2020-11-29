@@ -1,7 +1,7 @@
 # https://leetcode.com/explore/interview/card/top-interview-questions-easy/127/strings/886/
 
-class Solution:
 
+class Solution:
     def get_next_term(self, curr_term):
         next_term = ""
         curr_ind = 0
