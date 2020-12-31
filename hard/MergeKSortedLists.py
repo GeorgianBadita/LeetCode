@@ -15,21 +15,17 @@ class Solution:
         if not lists:
             return None
         heap = []
-        finished = [False if head is not None else True for head in lists]
 
         for i in range(len(lists)):
             if lists[i]:
                 heapq.heappush(heap, (lists[i].val, i))
                 lists[i] = lists[i].next
-                if not lists[i]:
-                    finished[i] = True
 
-        if False not in finished and len(heap) == 0:
             return None
 
         resultList = None
         resListHead = None
-        while True:
+        while len(heap) != 0:
             best, index = heapq.heappop(heap)
             if not resultList:
                 resultList = ListNode(best)
@@ -38,14 +34,9 @@ class Solution:
                 resultList.next = ListNode(best)
                 resultList = resultList.next
 
-            if not lists[index]:
-                finished[index] = True
-            else:
+            if lists[index]:
                 heapq.heappush(heap, (lists[index].val, index))
                 lists[index] = lists[index].next
-
-            if False not in finished and len(heap) == 0:
-                break
 
         return resListHead
 
