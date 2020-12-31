@@ -21,8 +21,6 @@ class Solution:
                 heapq.heappush(heap, (lists[i].val, i))
                 lists[i] = lists[i].next
 
-            return None
-
         resultList = None
         resListHead = None
         while len(heap) != 0:
