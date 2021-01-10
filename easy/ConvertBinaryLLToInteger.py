@@ -18,5 +18,5 @@ class Solution:
 
         num = 0
         for i in range(len(lst)):
-            num = lst[i]*2**(len(lst) - i - 1)
+            num += lst[i]*2**(len(lst) - i - 1)
         return num
